@@ -1,11 +1,4 @@
-export interface County {
-  id: number;
-  name: string;
-  region: string; // Coast, Rift Valley, Central, etc.
-  description: string;
-  attractions: string[];
-  image: string; // Placeholder for now
-}
+import { County } from "@/types";
 
 export const COUNTIES_DATA: County[] = [
   // COAST REGION
