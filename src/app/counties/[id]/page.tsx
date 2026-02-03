@@ -3,8 +3,37 @@
 import { use } from "react";
 import Link from "next/link";
 import { COUNTIES_DATA } from "@/data/counties";
+import { Metadata } from "next";
 
-export default function CountyDetail({ params }: { params: Promise<{ id: string }> }) {
+type Props = {
+  params: Promise<{ id: string }>
+}
+
+export async function generateMetadata(
+  { params }: Props,
+): Promise<Metadata> {
+  const { id } = await params;
+  const countyId = Number(id);
+  const county = COUNTIES_DATA.find(c => c.id === countyId);
+ 
+  if (!county) {
+    return {
+      title: 'County Not Found',
+    }
+  }
+ 
+  return {
+    title: `${county.name} County - Attractions & Guides`,
+    description: county.description,
+    openGraph: {
+      title: `Explore ${county.name} County | MyKenyanFriend`,
+      description: county.description,
+      images: [county.image],
+    },
+  }
+}
+
+export default function CountyDetail({ params }: Props) {
   const { id } = use(params);
   const countyId = Number(id);
 
